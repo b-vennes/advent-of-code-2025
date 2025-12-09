@@ -37,9 +37,7 @@ public record GateCode(Dial dial, int code) {
     }
 
     public static List<Instruction> parseInstructions(String input) {
-        Pattern parsingPattern = Pattern.compile(
-                "(?<direction>L|R)(?<amount>[0-9]+)"
-        );
+        Pattern parsingPattern = Pattern.compile("(?<direction>L|R)(?<amount>[0-9]+)");
         Matcher parsed = parsingPattern.matcher(input);
 
         ArrayList<Instruction> parsedInstructions = new ArrayList<>();
@@ -71,9 +69,7 @@ public record GateCode(Dial dial, int code) {
         public Function<GateCode, GateCode> toGateCodeModifier() {
             return (gateCode) -> {
                 Dial nextDial = gateCode.dial.rotateLeft(amount);
-                int nextCode = nextDial.location() == 0 ?
-                        gateCode.code + 1 :
-                        gateCode.code;
+                int nextCode = nextDial.location() == 0 ? gateCode.code + 1 : gateCode.code;
                 return gateCode.withDial(nextDial).withCode(nextCode);
             };
         }
@@ -93,9 +89,7 @@ public record GateCode(Dial dial, int code) {
         public Function<GateCode, GateCode> toGateCodeModifier() {
             return (gateCode) -> {
                 Dial nextDial = gateCode.dial.rotateRight(amount);
-                int nextCode = nextDial.location() == 0 ?
-                        gateCode.code + 1 :
-                        gateCode.code;
+                int nextCode = nextDial.location() == 0 ? gateCode.code + 1 : gateCode.code;
                 return gateCode.withDial(nextDial).withCode(nextCode);
             };
         }

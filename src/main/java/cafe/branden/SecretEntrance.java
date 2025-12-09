@@ -13,10 +13,6 @@ public class SecretEntrance implements Problem {
 
         GateCode part2Result = initial.processInstructionsMethod0x434C49434B(instructions);
 
-        return String.format(
-                "Part-1=%s,Part-2=%s",
-                part1Result.toString(),
-                part2Result.toString()
-        );
+        return String.format("Part-1=%s,Part-2=%s", part1Result.toString(), part2Result.toString());
     }
 }

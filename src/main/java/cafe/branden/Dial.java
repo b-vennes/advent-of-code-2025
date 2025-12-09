@@ -3,7 +3,7 @@ package cafe.branden;
 public record Dial(int location, int numbers) {
 
     public static Dial initial() {
-       return new Dial(50, 100);
+        return new Dial(50, 100);
     }
 
     public Dial rotateLeft(int amount) {
@@ -14,9 +14,7 @@ public record Dial(int location, int numbers) {
 
         int rotationRawValue = this.location - amount;
 
-        int passedZeroes = rotationRawValue <= 0 ?
-                Math.abs(rotationRawValue) / this.numbers:
-                0;
+        int passedZeroes = rotationRawValue <= 0 ? Math.abs(rotationRawValue) / this.numbers : 0;
 
         // if we started above 0 and are now negative, we've "crossed" zero
         if (this.location > 0 && rotationRawValue <= 0) {
@@ -25,16 +23,15 @@ public record Dial(int location, int numbers) {
 
         int normalized = rotationRawValue % this.numbers;
 
-        int nextLocation = normalized >= 0 ?
+        int nextLocation = normalized >= 0
+                ?
                 // in a valid spot
-                normalized :
+                normalized
+                :
                 // need to move left from top spot
                 normalized + this.numbers;
 
-        return new CountingZeroes(
-                new Dial(nextLocation, this.numbers),
-                passedZeroes
-        );
+        return new CountingZeroes(new Dial(nextLocation, this.numbers), passedZeroes);
     }
 
     public Dial rotateRight(int amount) {
@@ -48,10 +45,7 @@ public record Dial(int location, int numbers) {
 
         int nextLocation = rawRotationValue % this.numbers;
 
-        return new CountingZeroes(
-                new Dial(nextLocation, this.numbers),
-                passedZero
-        );
+        return new CountingZeroes(new Dial(nextLocation, this.numbers), passedZero);
     }
 
     public record CountingZeroes(Dial dial, int counted) {}

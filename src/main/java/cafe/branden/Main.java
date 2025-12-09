@@ -13,25 +13,17 @@ public class Main {
         return Objects.equals(arg, "--help") || Objects.equals(arg, "help") || Objects.equals(arg, "-h");
     }
 
-    private final static String HELP_MESSAGE = "Use 'java -jar advent-of-code-2025 day X input.txt' where X is a number and input.txt is a file path to an input file.";
+    private static final String HELP_MESSAGE =
+            "Use 'java -jar advent-of-code-2025 day X input.txt' where X is a number and input.txt is a file path to an input file.";
 
     static void main(String[] args) throws IOException {
         if (Arrays.stream(args).anyMatch(Main::isHelp)) {
-            IO.println(
-                    String.format(
-                            "Help requested.  %s",
-                            HELP_MESSAGE
-                    )
-            );
+            IO.println(String.format("Help requested.  %s", HELP_MESSAGE));
             return;
         }
 
         if (args.length < 3) {
-            IO.println(
-                    String.format(
-                        "Expected at least three arguments to program.  %s", HELP_MESSAGE
-                    )
-            );
+            IO.println(String.format("Expected at least three arguments to program.  %s", HELP_MESSAGE));
         }
 
         int day = Integer.parseInt(args[1]);

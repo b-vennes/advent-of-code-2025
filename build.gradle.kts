@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("com.diffplug.spotless") version "8.1.0"
 }
 
 group = "cafe.branden"
@@ -16,4 +17,10 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+spotless {
+    java {
+        palantirJavaFormat()
+    }
 }
