@@ -16,8 +16,16 @@ public record GateCode(Dial dial, int code) {
                 .apply(this);
     }
 
+    public GateCode processInstructionsMethod0x434C49434B(List<Instruction> instructionList) {
+        return instructionList.stream()
+                .map(Instruction::toGateCodeModifier0x434C49434B)
+                .reduce(Function::andThen)
+                .orElse(gateCode -> gateCode)
+                .apply(this);
+    }
+
     public static GateCode initial() {
-        return new GateCode(new Dial(50, 100), 0);
+        return new GateCode(Dial.initial(), 0);
     }
 
     public GateCode withDial(Dial dial) {
@@ -54,6 +62,8 @@ public record GateCode(Dial dial, int code) {
 
     public interface Instruction {
         Function<GateCode, GateCode> toGateCodeModifier();
+
+        Function<GateCode, GateCode> toGateCodeModifier0x434C49434B();
     }
 
     public record RotateLeftInstruction(int amount) implements Instruction {
@@ -67,6 +77,15 @@ public record GateCode(Dial dial, int code) {
                 return gateCode.withDial(nextDial).withCode(nextCode);
             };
         }
+
+        @Override
+        public Function<GateCode, GateCode> toGateCodeModifier0x434C49434B() {
+            return (gateCode) -> {
+                Dial.CountingZeroes step = gateCode.dial.rotateLeftCountingZeroes(amount);
+                int nextCode = gateCode.code + step.counted();
+                return gateCode.withCode(nextCode).withDial(step.dial());
+            };
+        }
     }
 
     public record RotateRightInstruction(int amount) implements Instruction {
@@ -78,6 +97,15 @@ public record GateCode(Dial dial, int code) {
                         gateCode.code + 1 :
                         gateCode.code;
                 return gateCode.withDial(nextDial).withCode(nextCode);
+            };
+        }
+
+        @Override
+        public Function<GateCode, GateCode> toGateCodeModifier0x434C49434B() {
+            return (gateCode) -> {
+                Dial.CountingZeroes step = gateCode.dial.rotateRightCountingZeroes(amount);
+                int nextCode = gateCode.code + step.counted();
+                return gateCode.withCode(nextCode).withDial(step.dial());
             };
         }
     }
